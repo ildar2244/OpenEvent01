@@ -1,7 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/categoty"
+        app:showAsAction="always"
+        android:icon="@drawable/pic_menu_threelines_01"
+        android:title="@string/category">
+    </item>
+    <item
+        android:id="@+id/add"
+        app:showAsAction="always"
+        android:icon="@drawable/pic_add"
+        android:title="@string/add">
+    </item>
+    <item
+        android:id="@+id/geo"
+        app:showAsAction="always"
+        android:icon="@drawable/pic_ge0_001"
+        android:title="@string/geo">
+    </item>
 
 </menu>
