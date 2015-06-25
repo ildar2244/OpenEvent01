@@ -1,12 +1,14 @@
-package ru.javaapp.openevent01;
+package ru.javaapp.openevent01.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import ru.javaapp.openevent01.R;
+import ru.javaapp.openevent01.dao.AllEvents;
 
 /**
  * Created by User on 23.06.2015.

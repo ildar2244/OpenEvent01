@@ -1,4 +1,4 @@
-package ru.javaapp.openevent01;
+package ru.javaapp.openevent01.dao;
 
 /**
  * Created by User on 23.06.2015.
@@ -13,6 +13,7 @@ public class AllEvents {
     private int placeId;
     private String name;
     private  String date, time, description;
+    private boolean blocked;
 
     public String getDescription() {
         return description;
