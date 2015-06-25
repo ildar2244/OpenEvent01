@@ -20,32 +20,32 @@ public class MainActivity extends ActionBarActivity {
         AllEvents event1 = new AllEvents();
         event1.setTime("6:00");
         event1.setDate("21/02/2015");
-        event1.setDescription("Это крутое мероприятие");
+        event1.setDescription("Р­С‚Рѕ РєСЂСѓС‚РѕРµ РјРµСЂРѕРїСЂРёСЏС‚РёРµ");
 
         AllEvents event2 = new AllEvents();
         event2.setTime("7:00");
         event2.setDate("21/02/2015");
-        event2.setDescription("Так себе");
+        event2.setDescription("РўР°Рє СЃРµР±Рµ");
 
         AllEvents event3 = new AllEvents();
         event3.setTime("8:00");
         event3.setDate("21/02/2015");
-        event3.setDescription("Это крутое мероприятие");
+        event3.setDescription("Р­С‚Рѕ РєСЂСѓС‚РѕРµ РјРµСЂРѕРїСЂРёСЏС‚РёРµ");
 
         AllEvents event4 = new AllEvents();
         event4.setTime("9:00");
         event4.setDate("21/02/2015");
-        event4.setDescription("Это крутое мероприятие");
+        event4.setDescription("Р­С‚Рѕ РєСЂСѓС‚РѕРµ РјРµСЂРѕРїСЂРёСЏС‚РёРµ");
 
         AllEvents event5 = new AllEvents();
         event5.setTime("10:00");
         event5.setDate("21/02/2015");
-        event5.setDescription("Это крутое мероприятие");
+        event5.setDescription("Р­С‚Рѕ РєСЂСѓС‚РѕРµ РјРµСЂРѕРїСЂРёСЏС‚РёРµ");
 
         AllEvents event6 = new AllEvents();
         event6.setTime("11:00");
         event6.setDate("21/02/2015");
-        event6.setDescription("Это крутое мероприятие");
+        event6.setDescription("Р­С‚Рѕ РєСЂСѓС‚РѕРµ РјРµСЂРѕРїСЂРёСЏС‚РёРµ");
 
 
         allEvents = new AllEvents[] {event1, event2, event3, event4, event5, event6};
