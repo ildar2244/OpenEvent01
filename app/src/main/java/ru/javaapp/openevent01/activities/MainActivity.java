@@ -1,5 +1,6 @@
 package ru.javaapp.openevent01.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -122,14 +123,6 @@ public class MainActivity extends ActionBarActivity {
 
     }// end async task
 
-    /*
-    public void accessWebService() {
-        JsonReadTask task = new JsonReadTask();
-        // passes values for the urls string array
-        task.execute(new String[] { url });
-    }
-    */
-
     // build hash set for list view
     public void ListDrwaer() {
         AllEvents event;
@@ -222,6 +215,16 @@ public class MainActivity extends ActionBarActivity {
         // Activate the navigation drawer toggle
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
+
+        switch (item.getItemId())
+        {
+            case R.id.add:
+            {
+                Intent addEventIntent = new Intent(getApplicationContext(), AddEventActivity.class);
+                startActivity(addEventIntent);
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
