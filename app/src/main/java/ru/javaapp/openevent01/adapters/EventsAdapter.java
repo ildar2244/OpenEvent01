@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import ru.javaapp.openevent01.R;
 import ru.javaapp.openevent01.dao.AllEvents;
 
@@ -15,10 +17,10 @@ import ru.javaapp.openevent01.dao.AllEvents;
  */
 public class EventsAdapter extends ArrayAdapter {
 
-    private AllEvents[] allEvents;
+    private List<AllEvents> allEvents;
     private Context context;
 
-    public EventsAdapter(Context context, AllEvents[] objects) {
+    public EventsAdapter(Context context, List<AllEvents> objects) {
         super(context, -1);
         allEvents = objects;
         this.context = context;
@@ -26,7 +28,7 @@ public class EventsAdapter extends ArrayAdapter {
 
     @Override
     public int getCount() {
-        return allEvents.length;
+        return allEvents.size();
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,7 +45,7 @@ public class EventsAdapter extends ArrayAdapter {
         TextView description = (TextView) v.findViewById(R.id.txt_descriptionn);
 
         //По позиции строки получим данные из массива
-        AllEvents events = allEvents[position];
+        AllEvents events = allEvents.get(position);
 
         //Заполним элементы данными
         date.setText(events.getDate());

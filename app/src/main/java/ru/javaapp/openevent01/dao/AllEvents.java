@@ -13,7 +13,16 @@ public class AllEvents {
     private int placeId;
     private String name;
     private  String date, time, description;
-    private boolean blocked;
+
+    public int isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(int blocked) {
+        this.blocked = blocked;
+    }
+
+    private int blocked;
 
     public String getDescription() {
         return description;

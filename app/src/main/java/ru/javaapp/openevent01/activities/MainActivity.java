@@ -1,6 +1,7 @@
 package ru.javaapp.openevent01.activities;
 
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +12,26 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import ru.javaapp.openevent01.R;
 import ru.javaapp.openevent01.adapters.EventsAdapter;
@@ -21,7 +41,6 @@ import ru.javaapp.openevent01.dao.AllEvents;
 public class MainActivity extends ActionBarActivity {
 
     private ListView lv_events;
-    private AllEvents[] allEvents;
 
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -29,56 +48,23 @@ public class MainActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
 
+    private String jsonResult;
+    private String url = "http://javaapp.ru/select_events_from_Events_table.php";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lv_events = (ListView)findViewById(R.id.lv_events);
         mDrawerList = (ListView)findViewById(R.id.navList);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
+
         addDrawerItems();
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        AllEvents event1 = new AllEvents();
-        event1.setTime("6:00");
-        event1.setDate("21 февраля");
-        event1.setDescription("Это крутое мероприятие");
-
-        AllEvents event2 = new AllEvents();
-        event2.setTime("7:00");
-        event2.setDate("21 февраля");
-        event2.setDescription("Так себе");
-
-        AllEvents event3 = new AllEvents();
-        event3.setTime("8:00");
-        event3.setDate("21 февраля");
-        event3.setDescription("Это крутое мероприятие");
-
-        AllEvents event4 = new AllEvents();
-        event4.setTime("9:00");
-        event4.setDate("21 февраля");
-        event4.setDescription("Это крутое мероприятие");
-
-        AllEvents event5 = new AllEvents();
-        event5.setTime("10:00");
-        event5.setDate("21 февраля");
-        event5.setDescription("Это крутое мероприятие");
-
-        AllEvents event6 = new AllEvents();
-        event6.setTime("11:00");
-        event6.setDate("21 февраля");
-        event6.setDescription("Это крутое мероприятие");
-
-
-        allEvents = new AllEvents[] {event1, event2, event3, event4, event5, event6};
-
-        EventsAdapter eventsAdapter = new EventsAdapter(this, allEvents);
-
-        lv_events = (ListView)findViewById(R.id.lv_events);
-        lv_events.setAdapter(eventsAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,7 +73,96 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+       new JsonReadTask().execute();
     }
+
+    // Async Task to access the web
+    private class JsonReadTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            try {
+                HttpResponse response = httpclient.execute(httppost);
+                jsonResult = inputStreamToString(
+                        response.getEntity().getContent()).toString();
+            }
+
+            catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private StringBuilder inputStreamToString(InputStream is) {
+            String rLine = "";
+            StringBuilder answer = new StringBuilder();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+            try {
+                while ((rLine = rd.readLine()) != null) {
+                    answer.append(rLine);
+                }
+            }
+
+            catch (IOException e) {
+                // e.printStackTrace();
+                Toast.makeText(getApplicationContext(),
+                        "Error..." + e.toString(), Toast.LENGTH_LONG).show();
+            }
+            return answer;
+        }
+
+        protected void onPostExecute(String result) {
+
+            ListDrwaer();
+        }
+
+    }// end async task
+
+    /*
+    public void accessWebService() {
+        JsonReadTask task = new JsonReadTask();
+        // passes values for the urls string array
+        task.execute(new String[] { url });
+    }
+    */
+
+    // build hash set for list view
+    public void ListDrwaer() {
+        AllEvents event;
+        ArrayList<AllEvents> eventsList = new ArrayList<AllEvents>();
+
+        try {
+            JSONObject jsonResponse = new JSONObject(jsonResult);
+            JSONArray jsonMainNode = jsonResponse.optJSONArray("allEvents_info");
+
+            for (int i = 0; i < jsonMainNode.length(); i++) {
+                event = new AllEvents();
+                JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+                //event.setCategoryId(Integer.parseInt(jsonChildNode.optString("categoryId")));
+                //event.setPlaceId(Integer.parseInt(jsonChildNode.optString("placeId")));
+               // event.setManagerId(Integer.parseInt(jsonChildNode.optString("managerId")));
+                //event.setName(jsonChildNode.optString("name"));
+                event.setDate(jsonChildNode.optString("data"));
+                event.setTime(jsonChildNode.optString("vremya"));
+                event.setDescription(jsonChildNode.optString("description"));
+                //event.setCoastId(Integer.parseInt(jsonChildNode.optString("coast")));
+                //event.setBlocked(Integer.parseInt(jsonChildNode.optString("blocked")));
+
+                eventsList.add(event);
+            }
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error" + e.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        EventsAdapter eventsAdapter = new EventsAdapter(MainActivity.this, eventsList);
+        lv_events.setAdapter(eventsAdapter);
+    }
+
 
     private void addDrawerItems() {
         String[] osArray = { "Ночная жизнь", "Театры", "Спорт", "Хуйня какая-то", "Херня" };
