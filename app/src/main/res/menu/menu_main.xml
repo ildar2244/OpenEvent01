@@ -2,12 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item
-        android:id="@+id/categoty"
-        app:showAsAction="always"
-        android:icon="@drawable/pic_menu_threelines_01"
-        android:title="@string/category">
-    </item>
+
     <item
         android:id="@+id/add"
         app:showAsAction="always"
