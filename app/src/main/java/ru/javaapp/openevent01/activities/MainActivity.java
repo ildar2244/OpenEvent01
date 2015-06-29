@@ -137,7 +137,7 @@ public class MainActivity extends ActionBarActivity {
                 JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
                 //event.setCategoryId(Integer.parseInt(jsonChildNode.optString("categoryId")));
                 //event.setPlaceId(Integer.parseInt(jsonChildNode.optString("placeId")));
-               // event.setManagerId(Integer.parseInt(jsonChildNode.optString("managerId")));
+                // event.setManagerId(Integer.parseInt(jsonChildNode.optString("managerId")));
                 //event.setName(jsonChildNode.optString("name"));
                 event.setDate(jsonChildNode.optString("data"));
                 event.setTime(jsonChildNode.optString("vremya"));
@@ -158,7 +158,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     private void addDrawerItems() {
-        String[] osArray = { "Ночная жизнь", "Театры", "Спорт", "Хуйня какая-то", "Херня" };
+        String[] osArray = getResources().getStringArray(R.array.category_list);
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
